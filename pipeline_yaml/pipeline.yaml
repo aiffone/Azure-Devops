@@ -15,7 +15,7 @@ steps:
     addToPath: true
 
 - script: |
-    git clone https://ars74cobogf4pp62aeszfl4qtry2hu6hmsmd5v2ppaum3zfxw5fa@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/sandboxscheduler $(System.DefaultWorkingDirectory)/sandboxscheduler
+    git clone https://GFTAZ@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/sandboxscheduler
   displayName: 'Clone sandboxscheduler repository'
 
 - script: |
