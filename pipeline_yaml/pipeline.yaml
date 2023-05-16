@@ -15,12 +15,12 @@ steps:
     addToPath: true
 
 - script: |
-    git clone https://albjujbujty77fddryyy27n322h7qyn376wjwlo4l24s5pjlmknq@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative
-    $(System.DefaultWorkingDirectory)/pipeline.yaml
+    git clone https://albjujbujty77fddryyy27n322h7qyn376wjwlo4l24s5pjlmknq@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/sandboxscheduler
+    $(System.DefaultWorkingDirectory)/terraform
   displayName: 'Clone pipeline_yaml repository'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/pipeline.yaml
+    cd $(System.DefaultWorkingDirectory)/terraform
     echo "$(terraformAuthFile.secureFilePath)"
     terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
