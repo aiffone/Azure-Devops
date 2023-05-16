@@ -27,7 +27,7 @@ steps:
   displayName: 'Terraform Init and Plan'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/terraform
+    cd $(System.DefaultWorkingDirectory)/pipeline_yaml
     terraform apply -auto-approve tfplan
   displayName: 'Terraform Apply'
 
