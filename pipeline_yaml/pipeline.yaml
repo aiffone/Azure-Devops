@@ -16,11 +16,11 @@ steps:
 
 - script: |
     git clone https://albjujbujty77fddryyy27n322h7qyn376wjwlo4l24s5pjlmknq@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative
-    $(System.DefaultWorkingDirectory)/pipeline_yaml
-  displayName: 'Clone Terraform repository'
+    $(System.DefaultWorkingDirectory)/pipeline.yaml
+  displayName: 'Clone pipeline_yaml repository'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/pipeline_yaml
+    cd $(System.DefaultWorkingDirectory)/pipeline.yaml
     echo "$(terraformAuthFile.secureFilePath)"
     terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
