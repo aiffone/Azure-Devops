@@ -1,0 +1,57 @@
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/test
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: windows-2019
+  steps:
+  - checkout: self
+    fetchDepth: 1
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Terraform'
+    inputs:
+      TargetFolder: $(build.artifactstagingdirectory)/Terraform
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+...
+
+
+
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+  displayName: 'Install Terraform latest'
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : init'
+  inputs:
+    provider: gcp
+    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
+    commandOptions: '-migrate-state'
+    backendServiceGCP: sandboxkayprjct01
+    backendGCPBucketName: sandboxtfstate
+    backendGCPPrefix: sanboxpolicy
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : plan'
+  inputs:
+    provider: gcp
+    command: plan
+    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
+    environmentServiceNameGCP: sandboxkayprjct01
+
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : apply'
+  inputs:
+    provider: gcp
+    command: apply
+    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
+    environmentServiceNameGCP: sandboxkayprjct01
