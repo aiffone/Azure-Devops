@@ -16,16 +16,16 @@ steps:
 
 - script: |
     git clone https://albjujbujty77fddryyy27n322h7qyn376wjwlo4l24s5pjlmknq@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/sandboxscheduler $(System.DefaultWorkingDirectory)/sandboxscheduler
-  displayName: 'Clone pipeline_yaml repository'
+  displayName: 'Clone sandboxscheduler repository'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/sandboxscheduler
+    cd $(System.DefaultWorkingDirectory)/sandboxscheduler/sandbox
     terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/sandboxscheduler
+    cd $(System.DefaultWorkingDirectory)/sandboxscheduler/sandbox
     terraform apply -auto-approve tfplan
   displayName: 'Terraform Apply'
 
