@@ -1,57 +1,37 @@
-resources:
-  repositories:
-  - repository: self
-    type: git
-    ref: refs/heads/test
-jobs:
-- job: Job_1
-  displayName: Agent job 1
-  pool:
-    vmImage: windows-2019
-  steps:
-  - checkout: self
-    fetchDepth: 1
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Terraform'
-    inputs:
-      TargetFolder: $(build.artifactstagingdirectory)/Terraform
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
-...
+trigger:
+  branches:
+    exclude:
+      - '*'
 
+pr: none
 
-
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
-  displayName: 'Install Terraform latest'
-
-steps:
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
-  displayName: 'Terraform : init'
+- task: UsePythonVersion@0
   inputs:
-    provider: gcp
-    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
-    commandOptions: '-migrate-state'
-    backendServiceGCP: sandboxkayprjct01
-    backendGCPBucketName: sandboxtfstate
-    backendGCPPrefix: sanboxpolicy
+    versionSpec: '3.x'
+    addToPath: true
 
-steps:
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
-  displayName: 'Terraform : plan'
+- task: DownloadSecureFile@1
+  name: terraformAuthFile
+  displayName: 'Download Terraform authentication file'
   inputs:
-    provider: gcp
-    command: plan
-    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
-    environmentServiceNameGCP: sandboxkayprjct01
+    secureFile: 'terraform-auth-file.json'
 
+- script: |
+    echo "$(terraformAuthFile.secureFilePath)"
+    terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
+    terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
+  displayName: 'Terraform Init and Plan'
 
-steps:
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
-  displayName: 'Terraform : apply'
+- script: |
+    terraform apply -auto-approve tfplan
+  displayName: 'Terraform Apply'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Terraform state'
   inputs:
-    provider: gcp
-    command: apply
-    workingDirectory: '$(System.DefaultWorkingDirectory)/_GCP Cloud Practice Initiative-CI/drop/Terraform'
-    environmentServiceNameGCP: sandboxkayprjct01
+    targetPath: '$(System.DefaultWorkingDirectory)/terraform.tfstate'
+    artifactName: 'terraform-state'
