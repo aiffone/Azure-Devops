@@ -30,9 +30,8 @@ steps:
     secureFile: 'gcp-key.json'
 
 - script: |
-    gcloud auth activate-service-account --key-file=gcp-key.json
+    gcloud auth activate-service-account --key-file=$(System.DefaultWorkingDirectory)/pipeline_yaml/gcp-key.json
   displayName: 'Authenticate with Google Cloud'
-
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
@@ -42,7 +41,6 @@ steps:
     terraform init
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
-
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
