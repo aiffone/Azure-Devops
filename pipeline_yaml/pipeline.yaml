@@ -73,5 +73,5 @@ steps:
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Terraform state'
   inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)/terraform.tfstate'
+    targetPath: '$(System.DefaultWorkingDirectory)/tfplan'
     artifactName: 'terraform-state'
