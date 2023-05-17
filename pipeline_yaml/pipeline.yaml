@@ -21,6 +21,7 @@ steps:
 - script: |
     cd $(System.DefaultWorkingDirectory)
     echo "Current working directory: $(System.DefaultWorkingDirectory)"
+    ls
   displayName: 'Print Current Working Directory'
 
 - script: |
