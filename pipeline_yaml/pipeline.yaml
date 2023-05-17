@@ -26,8 +26,7 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
-    echo "$(terraformAuthFile.secureFilePath)"
-    terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy" -migrate-state
+    terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy" -reconfigure
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
 
