@@ -41,14 +41,6 @@
 #   resource_policies = [google_compute_resource_policy.daily.id]
 # }
 
-terraform {
-  backend "gcs" {
-    bucket  = "sandboxstate"
-    prefix  = "terraform/state"
-  }
-}
-
-
 resource "google_compute_resource_policy" "daily" {
   name   = "gce-sandbox-policy"
   region = "europe-west2"
