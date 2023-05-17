@@ -15,7 +15,7 @@ steps:
     addToPath: true
 
 - script: |
-    git clone https://GFTAZ@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative
+    git clone https://ars74cobogf4pp62aeszfl4qtry2hu6hmsmd5v2ppaum3zfxw5fa@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
   displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
 
 - script: |
