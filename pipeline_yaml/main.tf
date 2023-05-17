@@ -1,5 +1,4 @@
 provider "google" {
-  credentials = filebase64("kayprjct01-358115-169da30b83f0.json")
   project     = var.gcp_project
   region      = var.gcp_region
   zone        = var.zone
