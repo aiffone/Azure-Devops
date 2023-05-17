@@ -19,14 +19,14 @@ steps:
   displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
+    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative/pipeline_yaml
     echo "$(terraformAuthFile.secureFilePath)"
     terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
+    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative/pipeline_yaml
     terraform apply -auto-approve tfplan
   displayName: 'Terraform Apply'
 
