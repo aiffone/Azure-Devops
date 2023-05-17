@@ -9,6 +9,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- task: DownloadSecureFile@1
+  name: gcpCreds
+  inputs:
+    secureFile: 'gcp-key.json'
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.x'
@@ -23,6 +29,10 @@ steps:
     echo "chmod +x terraform" >> install_terraform.sh
     echo "sudo mv terraform /usr/local/bin/" >> install_terraform.sh
   displayName: 'Create Terraform installation script'
+
+- script: |
+    gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
+  displayName: 'Authenticate with Google Cloud'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Terraform installation script'

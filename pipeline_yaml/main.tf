@@ -1,53 +1,16 @@
-# resource "google_compute_instance" "default" {
-#   name         = "sandbox1"
-#   machine_type = "n1-standard-1"
-#   zone         = "europe-west2-c"
+terraform {
+  backend "gcs" {
+    bucket  = "sandboxtfstate"
+    prefix  = "sanboxpolicy"
+  }
+}
 
-#   tags = ["foo", "bar"]
-
-#   boot_disk {
-#     initialize_params {
-#       image = "debian-cloud/debian-11"
-#       labels = {
-#         my_label = "value"
-#       }
-#     }
-#   }
-
-#   // Local SSD disk
-# #   scratch_disk {
-# #     interface = "SCSI"
-# #   }
-
-#   network_interface {
-#     network = "default"
-
-#     access_config {
-#       // Ephemeral public IP
-#     }
-#   }
-
-#   metadata = {
-#     foo = "bar"
-#   }
-
-#   metadata_startup_script = "echo hi > /test.txt"
-
-#   service_account {
-#     email  = var.service_account
-#     scopes = ["cloud-platform"]
-#   }
-
-#   resource_policies = [google_compute_resource_policy.daily.id]
-# }
-
-# terraform {
-#   backend "gcs" {
-#     bucket  = "sandboxtfstate"
-#     prefix  = "sanboxpolicy"
-#   }
-# }
-
+provider "google" {
+  credentials = filebase64("kayprjct01-358115-169da30b83f0.json")
+  project     = var.gcp_project
+  region      = var.gcp_region
+  zone        = var.zone
+}
 
 resource "google_compute_resource_policy" "daily" {
   name   = "gce-sandbox-policy"
