@@ -26,7 +26,10 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
-    terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
+    cp backend.tf.template backend.tf
+    echo 'bucket = "sandboxtfstate"' >> backend.tf
+    echo 'prefix = "sanboxpolicy"' >> backend.tf
+    terraform init
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
 
