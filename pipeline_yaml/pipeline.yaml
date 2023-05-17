@@ -25,6 +25,11 @@ steps:
   displayName: 'Print Current Working Directory'
 
 - script: |
+    echo $(kayprjct01-358115-169da30b83f0.json) > $(HOME)/gcp-key.json
+    gcloud auth activate-service-account --key-file=$(HOME)/gcp-key.json
+  displayName: 'Authenticate with Google Cloud'
+
+- script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
     cp backend.tf.template backend.tf
     echo 'bucket = "sandboxtfstate"' >> backend.tf
