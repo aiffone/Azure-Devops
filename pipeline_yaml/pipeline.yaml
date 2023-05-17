@@ -1,36 +1,28 @@
+name: "Terraform Plan"
+
 trigger:
   branches:
-    exclude:
-      - '*'
-
-pr: none
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
+
+- task: TerraformInstaller@0
+  displayName: "Install Terraform"
   inputs:
-    versionSpec: '3.x'
-    addToPath: true
+    terraformVersion: '1.3.9'
+    terraformDownloadLocation: 'https://releases.hashicorp.com/terraform'
 
 - script: |
-    git clone https://ars74cobogf4pp62aeszfl4qtry2hu6hmsmd5v2ppaum3zfxw5fa@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
-  displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
-
-- script: |
-    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative/pipeline_yaml
-    terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
-    terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
-  displayName: 'Terraform Init and Plan'
-
-- script: |
-    cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative/pipeline_yaml
-    terraform apply -auto-approve tfplan
-  displayName: 'Terraform Apply'
-
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish Terraform state'
+    terraform init
+    terraform plan -out=terraform.tfplan
+  displayName: 'Terraform Plan'
+  
+- task: PublishBuildArtifacts@1
   inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative/terraform.tfstate'
-    artifactName: 'terraform-state'
+    pathtoPublish: '$(Build.SourcesDirectory)/terraform.tfplan'
+    artifactName: 'terraformPlan'
+    publishLocation: 'Container'
