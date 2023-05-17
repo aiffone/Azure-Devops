@@ -41,12 +41,12 @@
 #   resource_policies = [google_compute_resource_policy.daily.id]
 # }
 
-terraform {
-  backend "gcs" {
-    bucket  = "sandboxtfstate"
-    prefix  = "sanboxpolicy"
-  }
-}
+# terraform {
+#   backend "gcs" {
+#     bucket  = "sandboxtfstate"
+#     prefix  = "sanboxpolicy"
+#   }
+# }
 
 
 resource "google_compute_resource_policy" "daily" {
