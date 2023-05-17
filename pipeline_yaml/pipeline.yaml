@@ -28,9 +28,15 @@ steps:
     echo $(kayprjct01-358115-169da30b83f0.json) > gcp-key.json
   displayName: 'Create JSON credentials file'
 
+- task: DownloadSecureFile@1
+  displayName: 'Download Google Cloud credentials'
+  inputs:
+    secureFile: 'gcp-key.json'
+
 - script: |
     gcloud auth activate-service-account --key-file=gcp-key.json
   displayName: 'Authenticate with Google Cloud'
+
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
