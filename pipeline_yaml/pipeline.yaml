@@ -27,8 +27,7 @@ steps:
 - task: UseTerraform@0
   inputs:
     provider: 'google'
-    command: 'init'
-    backendServiceConnections: 'sandboxkayprjct01'
+    command: 'install'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
