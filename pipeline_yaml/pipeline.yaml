@@ -24,10 +24,17 @@ steps:
     ls
   displayName: 'Print Current Working Directory'
 
-- task: UseTerraform@0
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Terraform installation script'
   inputs:
-    provider: 'google'
-    command: 'install'
+    artifactName: 'terraform-installation'
+    targetPath: '$(System.DefaultWorkingDirectory)/terraform-installation'
+
+- script: |
+    cd $(System.DefaultWorkingDirectory)/terraform-installation
+    chmod +x install_terraform.sh
+    ./install_terraform.sh
+  displayName: 'Install Terraform'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
