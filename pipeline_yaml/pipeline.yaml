@@ -65,6 +65,8 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
+    gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
+    export GOOGLE_APPLICATION_CREDENTIALS=$(gcpCreds.secureFilePath)
     terraform apply -auto-approve tfplan
   displayName: 'Terraform Apply'
 
