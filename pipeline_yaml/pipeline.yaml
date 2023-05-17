@@ -31,6 +31,7 @@ steps:
 
 - script: |
     gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
+    echo "Authenticated"
   displayName: 'Authenticate with Google Cloud'
 
 - task: PublishPipelineArtifact@1
