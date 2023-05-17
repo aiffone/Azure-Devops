@@ -9,7 +9,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
 - task: DownloadSecureFile@1
   name: gcpCreds
   inputs:
@@ -40,23 +39,6 @@ steps:
     targetPath: '$(System.DefaultWorkingDirectory)/terraform-installation'
     artifactName: 'terraform-installation'
 
-
-- script: |
-    git clone https://ars74cobogf4pp62aeszfl4qtry2hu6hmsmd5v2ppaum3zfxw5fa@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
-  displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
-
-- script: |
-    cd $(System.DefaultWorkingDirectory)/pipeline_yaml
-    echo "Current working directory: $(System.DefaultWorkingDirectory)/pipeline_yaml"
-    ls
-  displayName: 'Print Current Working Directory'
-
-- task: DownloadPipelineArtifact@2
-  displayName: 'Download Terraform installation script'
-  inputs:
-    artifactName: 'terraform-installation'
-    targetPath: '$(System.DefaultWorkingDirectory)/terraform-installation'
-
 - script: |
     cd $(System.DefaultWorkingDirectory)/terraform-installation
     chmod +x install_terraform.sh
@@ -65,7 +47,14 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
-    terraform init -migrate-state
+    terraform init
+    echo 'terraform {
+      backend "gcs" {
+        bucket  = "sandboxtfstate"
+        prefix  = "sanboxpolicy"
+      }
+    }' > backend.tf
+    terraform init -reconfigure
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
   displayName: 'Terraform Init and Plan'
 
