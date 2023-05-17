@@ -19,8 +19,8 @@ steps:
   displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)
-    echo "Current working directory: $(System.DefaultWorkingDirectory)"
+    cd $(System.DefaultWorkingDirectory)/pipeline_yaml
+    echo "Current working directory: $(System.DefaultWorkingDirectory)/pipeline_yaml"
     ls
   displayName: 'Print Current Working Directory'
 
