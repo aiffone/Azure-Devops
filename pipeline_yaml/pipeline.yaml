@@ -30,7 +30,7 @@ steps:
     secureFile: 'gcp-key.json'
 
 - script: |
-    gcloud auth activate-service-account --key-file=kayprjct01-358115-169da30b83f0.json
+    gcloud auth activate-service-account --key-file=gcp-key.json
   displayName: 'Authenticate with Google Cloud'
 
 
