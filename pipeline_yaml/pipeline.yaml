@@ -17,6 +17,7 @@ steps:
     terraformDownloadLocation: 'https://releases.hashicorp.com/terraform'
 
 - script: |
+    echo $pwd
     terraform init
     terraform plan -out=terraform.tfplan
   displayName: 'Terraform Plan'
