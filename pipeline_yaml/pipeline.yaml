@@ -14,7 +14,7 @@ steps:
     versionSpec: '3.x'
     addToPath: true
 
-- checkout: self
+- checkout: dev
   fetchTags: true
    ls
 
