@@ -15,6 +15,23 @@ steps:
     addToPath: true
 
 - script: |
+    mkdir $(System.DefaultWorkingDirectory)/terraform-installation
+    cd $(System.DefaultWorkingDirectory)/terraform-installation
+    echo "#!/bin/bash" > install_terraform.sh
+    echo "curl -LO https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip" >> install_terraform.sh
+    echo "unzip terraform_1.0.0_linux_amd64.zip" >> install_terraform.sh
+    echo "chmod +x terraform" >> install_terraform.sh
+    echo "sudo mv terraform /usr/local/bin/" >> install_terraform.sh
+  displayName: 'Create Terraform installation script'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Terraform installation script'
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)/terraform-installation'
+    artifactName: 'terraform-installation'
+
+
+- script: |
     git clone https://ars74cobogf4pp62aeszfl4qtry2hu6hmsmd5v2ppaum3zfxw5fa@dev.azure.com/GFTAZ/GCP%20Cloud%20Practice%20Initiative/_git/GCP_Cloud_Practice_Initiative $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
   displayName: 'Clone GCP_Cloud_Practice_Initiative repository'
 
