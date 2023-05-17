@@ -1,10 +1,3 @@
-terraform {
-  backend "gcs" {
-    bucket  = "sandboxtfstate"
-    prefix  = "sanboxpolicy"
-  }
-}
-
 provider "google" {
   credentials = filebase64("kayprjct01-358115-169da30b83f0.json")
   project     = var.gcp_project
