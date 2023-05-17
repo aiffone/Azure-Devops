@@ -26,6 +26,7 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/GCP_Cloud_Practice_Initiative
+    ls
     echo "$(terraformAuthFile.secureFilePath)"
     terraform init -backend-config="bucket=sandboxtfstate" -backend-config="prefix=sanboxpolicy"
     terraform plan -var="project_id=kayprjct01-358115" -out=tfplan
