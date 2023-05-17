@@ -47,10 +47,9 @@ steps:
   displayName: 'Install Terraform'
 
 - script: |
-    gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
-    echo $pwd
     ls -la    
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
+    gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
     ls -la
     echo 'terraform {
       backend "gcs" {
