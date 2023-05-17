@@ -17,7 +17,12 @@ steps:
     terraformDownloadLocation: 'https://releases.hashicorp.com/terraform'
 
 - script: |
-    echo $pwd
+    cd $(System.DefaultWorkingDirectory)
+    echo "Current working directory: $(System.DefaultWorkingDirectory)"
+  displayName: 'Print Current Working Directory'
+
+
+- script: |
     terraform init
     terraform plan -out=terraform.tfplan
   displayName: 'Terraform Plan'
