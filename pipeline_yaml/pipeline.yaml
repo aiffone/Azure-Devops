@@ -24,10 +24,11 @@ steps:
     ls
   displayName: 'Print Current Working Directory'
 
-# - task: UseTerraform@0
-#   inputs:
-#     versionSpec: '0.14.x'  
-#     addToPath: true
+- task: UseTerraform@0
+  inputs:
+    provider: 'google'
+    command: 'init'
+    backendServiceConnections: 'sandboxkayprjct01'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
