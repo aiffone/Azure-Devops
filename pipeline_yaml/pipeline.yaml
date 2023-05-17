@@ -24,15 +24,6 @@ steps:
     ls
   displayName: 'Print Current Working Directory'
 
-- task: DownloadSecureFile@1
-  displayName: 'Download Google Cloud credentials'
-  inputs:
-    secureFile: 'gcp-key.json'
-
-- script: |
-    gcloud auth activate-service-account --key-file=$(System.DefaultWorkingDirectory)/pipeline_yaml/gcp-key.json
-  displayName: 'Authenticate with Google Cloud'
-
 - script: |
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
     cp backend.tf.template backend.tf
