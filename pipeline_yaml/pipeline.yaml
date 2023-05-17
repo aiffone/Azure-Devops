@@ -48,7 +48,10 @@ steps:
 
 - script: |
     gcloud auth activate-service-account --key-file=$(gcpCreds.secureFilePath)
+    echo $pwd
+    ls -la    
     cd $(System.DefaultWorkingDirectory)/pipeline_yaml
+    ls -la
     echo 'terraform {
       backend "gcs" {
         bucket  = "sandboxtfstate"
